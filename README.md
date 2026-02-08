@@ -190,3 +190,5 @@ And thank you to all our backers! 🙏
 ## License
 
 Day.js is licensed under a [MIT License](./LICENSE).
+
+<!-- review-bot dry-run: simulated change at 2026-02-08T12:08:02.585Z -->
