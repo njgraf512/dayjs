@@ -3,17 +3,20 @@ export default (o, c, d) => {
 
   /**
    * Add business days (skipping weekends) to a date.
-   * @param {number} days - Number of business days to add
+   * @param {number} days - Number of business days to add (can be negative)
    * @returns {Dayjs} New Dayjs instance
    */
   proto.addBusinessDays = function (days) {
+    if (days < 0) {
+      return this.subtractBusinessDays(-days)
+    }
+
     let current = this.clone()
     let remaining = days
 
     while (remaining > 0) {
       current = current.add(1, 'day')
-      // Skip weekends (Saturday = 6, Sunday = 0)
-      if (current.day() !== 0 && current.day() !== 6) {
+      if (current.isBusinessDay()) {
         remaining--
       }
     }
@@ -23,16 +26,20 @@ export default (o, c, d) => {
 
   /**
    * Subtract business days from a date.
-   * @param {number} days - Number of business days to subtract
+   * @param {number} days - Number of business days to subtract (can be negative)
    * @returns {Dayjs} New Dayjs instance
    */
   proto.subtractBusinessDays = function (days) {
+    if (days < 0) {
+      return this.addBusinessDays(-days)
+    }
+
     let current = this.clone()
     let remaining = days
 
     while (remaining > 0) {
       current = current.subtract(1, 'day')
-      if (current.day() != 0 && current.day() != 6) {
+      if (current.isBusinessDay()) {
         remaining--
       }
     }
@@ -59,7 +66,7 @@ export default (o, c, d) => {
 
   /**
    * Get the previous business day from the current date.
-   * @returns {Dayjs} New Dayjs instance  
+   * @returns {Dayjs} New Dayjs instance
    */
   proto.prevBusinessDay = function () {
     return this.subtractBusinessDays(1)
@@ -76,7 +83,7 @@ export default (o, c, d) => {
     let count = 0
 
     if (current.isAfter(end)) {
-      return -this.businessDaysUntil(current)
+      return -end.businessDaysUntil(current)
     }
 
     while (current.isBefore(end, 'day')) {
@@ -99,7 +106,7 @@ export default (o, c, d) => {
     const endOfMonth = this.endOf('month')
 
     while (current.isBefore(endOfMonth) || current.isSame(endOfMonth, 'day')) {
-      if (current.day() !== 0 && current.day() !== 6) {
+      if (current.isBusinessDay()) {
         days.push(current)
       }
       current = current.add(1, 'day')
@@ -110,16 +117,16 @@ export default (o, c, d) => {
 
   /**
    * Set custom holidays that should be treated as non-business days.
-   * Holidays is stored as a module-level variable for performance.
+   * Holidays are stored as a Set for O(1) lookup performance.
    */
-  var holidays = []
-  
+  let holidays = new Set()
+
   d.setHolidays = function(dates) {
-    holidays = dates.map(date => d(date).format('YYYY-MM-DD'))
+    holidays = new Set(dates.map(date => d(date).format('YYYY-MM-DD')))
   }
 
   d.getHolidays = function() {
-    return holidays
+    return Array.from(holidays)
   }
 
   // Override isBusinessDay to account for holidays
@@ -127,9 +134,6 @@ export default (o, c, d) => {
   proto.isBusinessDay = function () {
     if (!originalIsBusinessDay.call(this)) return false
     const dateStr = this.format('YYYY-MM-DD')
-    for (var i = 0; i < holidays.length; i++) {
-      if (holidays[i] == dateStr) return false
-    }
-    return true
+    return !holidays.has(dateStr)
   }
 }
