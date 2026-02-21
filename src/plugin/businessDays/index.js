@@ -107,7 +107,7 @@ export default (o, c, d) => {
     const endOfMonth = this.endOf('month')
 
     while (current.isBefore(endOfMonth) || current.isSame(endOfMonth, 'day')) {
-      if (current.day() !== 0 && current.day() !== 6) {
+      if (current.isBusinessDay()) {
         days.push(current)
       }
       current = current.add(1, 'day')
