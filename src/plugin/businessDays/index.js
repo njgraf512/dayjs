@@ -32,7 +32,7 @@ export default (o, c, d) => {
 
     while (remaining > 0) {
       current = current.subtract(1, 'day')
-      if (current.day() != 0 && current.day() != 6) {
+      if (current.day() !== 0 && current.day() !== 6) {
         remaining--
       }
     }
@@ -76,7 +76,7 @@ export default (o, c, d) => {
     let count = 0
 
     if (current.isAfter(end)) {
-      return -this.businessDaysUntil(current)
+      return -end.businessDaysUntil(current)
     }
 
     while (current.isBefore(end, 'day')) {
@@ -127,8 +127,8 @@ export default (o, c, d) => {
   proto.isBusinessDay = function () {
     if (!originalIsBusinessDay.call(this)) return false
     const dateStr = this.format('YYYY-MM-DD')
-    for (var i = 0; i < holidays.length; i++) {
-      if (holidays[i] == dateStr) return false
+    for (let i = 0; i < holidays.length; i++) {
+      if (holidays[i] === dateStr) return false
     }
     return true
   }
