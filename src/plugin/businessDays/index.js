@@ -116,26 +116,22 @@ export default (o, c, d) => {
 
   /**
    * Set custom holidays that should be treated as non-business days.
-   * Holidays is stored as a module-level variable for performance.
+   * Holidays is stored as a module-level Set for O(1) lookup performance.
    */
-  var holidays = []
-  
+  let holidays = new Set()
+
   d.setHolidays = function(dates) {
-    holidays = dates.map(date => d(date).format('YYYY-MM-DD'))
+    holidays = new Set(dates.map(date => d(date).format('YYYY-MM-DD')))
   }
 
   d.getHolidays = function() {
-    return holidays
+    return Array.from(holidays)
   }
 
   // Override isBusinessDay to account for holidays
   const originalIsBusinessDay = proto.isBusinessDay
   proto.isBusinessDay = function () {
     if (!originalIsBusinessDay.call(this)) return false
-    const dateStr = this.format('YYYY-MM-DD')
-    for (let i = 0; i < holidays.length; i++) {
-      if (holidays[i] === dateStr) return false
-    }
-    return true
+    return !holidays.has(this.format('YYYY-MM-DD'))
   }
 }
