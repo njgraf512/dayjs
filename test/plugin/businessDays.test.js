@@ -76,13 +76,13 @@ describe('BusinessDays Plugin', () => {
   describe('businessDaysUntil', () => {
     it('should count business days between two dates', () => {
       const start = dayjs('2025-01-06') // Monday
-      const end = dayjs('2025-01-10')   // Friday
+      const end = dayjs('2025-01-10') // Friday
       expect(start.businessDaysUntil(end)).toBe(4)
     })
 
     it('should return negative count when end is before start', () => {
       const start = dayjs('2025-01-10') // Friday
-      const end = dayjs('2025-01-06')   // Monday
+      const end = dayjs('2025-01-06') // Monday
       expect(start.businessDaysUntil(end)).toBe(-4)
     })
 
@@ -95,13 +95,13 @@ describe('BusinessDays Plugin', () => {
   describe('businessDaysInMonth', () => {
     it('should return all business days in a month', () => {
       const jan2025 = dayjs('2025-01-15')
-      const businessDays = jan2025.businessDaysInMonth()
+      const bizDays = jan2025.businessDaysInMonth()
       // January 2025 has 23 business days
-      expect(businessDays.length).toBe(23)
+      expect(bizDays.length).toBe(23)
       // First business day should be Jan 1 (Wed)
-      expect(businessDays[0].format('YYYY-MM-DD')).toBe('2025-01-01')
+      expect(bizDays[0].format('YYYY-MM-DD')).toBe('2025-01-01')
       // Last should be Jan 31 (Fri)
-      expect(businessDays[businessDays.length - 1].format('YYYY-MM-DD')).toBe('2025-01-31')
+      expect(bizDays[bizDays.length - 1].format('YYYY-MM-DD')).toBe('2025-01-31')
     })
   })
 
@@ -128,11 +128,11 @@ describe('BusinessDays Plugin', () => {
     it('should exclude holidays from businessDaysInMonth', () => {
       dayjs.setHolidays(['2025-01-01']) // New Year's Day
       const jan2025 = dayjs('2025-01-15')
-      const businessDays = jan2025.businessDaysInMonth()
+      const bizDays = jan2025.businessDaysInMonth()
       // Should be 22 business days (23 - 1 holiday)
-      expect(businessDays.length).toBe(22)
+      expect(bizDays.length).toBe(22)
       // First business day should be Jan 2 (Thu) since Jan 1 is a holiday
-      expect(businessDays[0].format('YYYY-MM-DD')).toBe('2025-01-02')
+      expect(bizDays[0].format('YYYY-MM-DD')).toBe('2025-01-02')
     })
   })
 })

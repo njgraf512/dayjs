@@ -16,7 +16,7 @@ export default (o, c, d) => {
     while (remaining > 0) {
       current = current.add(1, 'day')
       if (current.isBusinessDay()) {
-        remaining--
+        remaining -= 1
       }
     }
 
@@ -38,7 +38,7 @@ export default (o, c, d) => {
     while (remaining > 0) {
       current = current.subtract(1, 'day')
       if (current.isBusinessDay()) {
-        remaining--
+        remaining -= 1
       }
     }
 
@@ -64,7 +64,7 @@ export default (o, c, d) => {
 
   /**
    * Get the previous business day from the current date.
-   * @returns {Dayjs} New Dayjs instance  
+   * @returns {Dayjs} New Dayjs instance
    */
   proto.prevBusinessDay = function () {
     return this.subtractBusinessDays(1)
@@ -87,7 +87,7 @@ export default (o, c, d) => {
     while (current.isBefore(end, 'day')) {
       current = current.add(1, 'day')
       if (current.isBusinessDay()) {
-        count++
+        count += 1
       }
     }
 
@@ -119,11 +119,11 @@ export default (o, c, d) => {
    */
   let holidays = new Set()
 
-  d.setHolidays = function(dates) {
+  d.setHolidays = function (dates) {
     holidays = new Set(dates.map(date => d(date).format('YYYY-MM-DD')))
   }
 
-  d.getHolidays = function() {
+  d.getHolidays = function () {
     return Array.from(holidays)
   }
 
