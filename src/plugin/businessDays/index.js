@@ -16,6 +16,7 @@ export default (o, c, d) => {
 
     while (remaining > 0) {
       current = current.add(1, 'day')
+      // this is a testy test
       // Skip weekends (Saturday = 6, Sunday = 0)
       if (current.day() !== 0 && current.day() !== 6) {
         remaining--
