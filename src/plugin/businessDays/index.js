@@ -84,7 +84,7 @@ export default (o, c, d) => {
     let count = 0
 
     if (current.isAfter(end)) {
-      return -this.businessDaysUntil(current)
+      return -end.businessDaysUntil(this)
     }
 
     while (current.isBefore(end, 'day')) {
