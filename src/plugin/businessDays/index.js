@@ -7,6 +7,13 @@ export default (o, c, d) => {
    * @returns {Dayjs} New Dayjs instance
    */
   proto.addBusinessDays = function (days) {
+    if (typeof days !== 'number' || Number.isNaN(days)) {
+      throw new TypeError('Days must be a valid number')
+    }
+    if (days < 0) {
+      throw new RangeError('Days must be a non-negative number')
+    }
+
     let current = this.clone()
     let remaining = days
 
@@ -27,6 +34,13 @@ export default (o, c, d) => {
    * @returns {Dayjs} New Dayjs instance
    */
   proto.subtractBusinessDays = function (days) {
+    if (typeof days !== 'number' || Number.isNaN(days)) {
+      throw new TypeError('Days must be a valid number')
+    }
+    if (days < 0) {
+      throw new RangeError('Days must be a non-negative number')
+    }
+
     let current = this.clone()
     let remaining = days
 

@@ -20,6 +20,17 @@ describe('BusinessDays Plugin', () => {
       // Should be next Monday Jan 13
       expect(result.format('YYYY-MM-DD')).toBe('2025-01-13')
     })
+
+    it('should throw TypeError for non-numeric input', () => {
+      const date = dayjs('2025-01-06')
+      expect(() => date.addBusinessDays('invalid')).toThrow(TypeError)
+      expect(() => date.addBusinessDays(NaN)).toThrow(TypeError)
+    })
+
+    it('should throw RangeError for negative input', () => {
+      const date = dayjs('2025-01-06')
+      expect(() => date.addBusinessDays(-5)).toThrow(RangeError)
+    })
   })
 
   describe('subtractBusinessDays', () => {
@@ -29,6 +40,17 @@ describe('BusinessDays Plugin', () => {
       const result = monday.subtractBusinessDays(1)
       // Should be Friday Jan 3
       expect(result.format('YYYY-MM-DD')).toBe('2025-01-03')
+    })
+
+    it('should throw TypeError for non-numeric input', () => {
+      const date = dayjs('2025-01-06')
+      expect(() => date.subtractBusinessDays('invalid')).toThrow(TypeError)
+      expect(() => date.subtractBusinessDays(NaN)).toThrow(TypeError)
+    })
+
+    it('should throw RangeError for negative input', () => {
+      const date = dayjs('2025-01-06')
+      expect(() => date.subtractBusinessDays(-5)).toThrow(RangeError)
     })
   })
 
