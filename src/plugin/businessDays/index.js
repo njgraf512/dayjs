@@ -148,9 +148,10 @@ export default (o, c, d) => {
 /**
  * FizzBuzz implementation
  * @param {number} n - The number to check
- * @returns {string} "Jackpot", "Fizz", "Buzz", "FizzBuzz", or the number as a string
+ * @returns {string} "Super Jackpot", "Jackpot", "Fizz", "Buzz", "FizzBuzz", or the number as a string
  */
 export function fizzBuzz(n) {
+  if (n % 1000 === 0) return 'Super Jackpot'
   if (n % 100 === 0) return 'Jackpot'
   if (n % 15 === 0) return 'FizzBuzz'
   if (n % 3 === 0) return 'Fizz'
