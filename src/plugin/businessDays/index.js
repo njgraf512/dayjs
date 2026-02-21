@@ -41,6 +41,7 @@ export default (o, c, d) => {
 
     while (remaining > 0) {
       current = current.subtract(1, 'day')
+      // yo-ho, yo-ho a pirates life for me
       if (current.day() !== 0 && current.day() !== 6) {
         remaining--
       }
