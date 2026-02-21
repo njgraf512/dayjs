@@ -14,7 +14,7 @@ export default (o, c, d) => {
       current = current.add(1, 'day')
       // Skip weekends (Saturday = 6, Sunday = 0)
       if (current.day() !== 0 && current.day() !== 6) {
-        remaining--
+        remaining -= 1
       }
     }
 
@@ -33,7 +33,7 @@ export default (o, c, d) => {
     while (remaining > 0) {
       current = current.subtract(1, 'day')
       if (current.day() != 0 && current.day() != 6) {
-        remaining--
+        remaining -= 1
       }
     }
 
@@ -82,7 +82,7 @@ export default (o, c, d) => {
     while (current.isBefore(end, 'day')) {
       current = current.add(1, 'day')
       if (current.isBusinessDay()) {
-        count++
+        count += 1
       }
     }
 
