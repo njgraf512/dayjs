@@ -15,8 +15,7 @@ export default (o, c, d) => {
 
     while (remaining > 0) {
       current = current.add(1, 'day')
-      // Skip weekends (Saturday = 6, Sunday = 0)
-      if (current.day() !== 0 && current.day() !== 6) {
+      if (current.isBusinessDay()) {
         remaining--
       }
     }
@@ -38,7 +37,7 @@ export default (o, c, d) => {
 
     while (remaining > 0) {
       current = current.subtract(1, 'day')
-      if (current.day() !== 0 && current.day() !== 6) {
+      if (current.isBusinessDay()) {
         remaining--
       }
     }
@@ -105,7 +104,7 @@ export default (o, c, d) => {
     const endOfMonth = this.endOf('month')
 
     while (current.isBefore(endOfMonth) || current.isSame(endOfMonth, 'day')) {
-      if (current.day() !== 0 && current.day() !== 6) {
+      if (current.isBusinessDay()) {
         days.push(current)
       }
       current = current.add(1, 'day')
