@@ -7,6 +7,10 @@ export default (o, c, d) => {
    * @returns {Dayjs} New Dayjs instance
    */
   proto.addBusinessDays = function (days) {
+    if (days < 0) {
+      return this.subtractBusinessDays(-days)
+    }
+
     let current = this.clone()
     let remaining = days
 
@@ -27,12 +31,16 @@ export default (o, c, d) => {
    * @returns {Dayjs} New Dayjs instance
    */
   proto.subtractBusinessDays = function (days) {
+    if (days < 0) {
+      return this.addBusinessDays(-days)
+    }
+
     let current = this.clone()
     let remaining = days
 
     while (remaining > 0) {
       current = current.subtract(1, 'day')
-      if (current.day() != 0 && current.day() != 6) {
+      if (current.day() !== 0 && current.day() !== 6) {
         remaining--
       }
     }
