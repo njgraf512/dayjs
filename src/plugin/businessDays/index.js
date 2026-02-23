@@ -75,8 +75,8 @@ export default (o, c, d) => {
     let current = this.clone()
     let count = 0
 
-    if (current.isAfter(end)) {
-      return -this.businessDaysUntil(current)
+    if (this.isAfter(end)) {
+      return -end.businessDaysUntil(this)
     }
 
     while (current.isBefore(end, 'day')) {
